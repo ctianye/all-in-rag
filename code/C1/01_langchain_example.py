@@ -13,13 +13,18 @@ load_dotenv()
 
 markdown_path = "../../data/C1/markdown/easy-rl-chapter1.md"
 
+#首先进行数据的处理，加载和分块
+
 # 加载本地markdown文件
 loader = UnstructuredMarkdownLoader(markdown_path)
 docs = loader.load()
 
 # 文本分块
-text_splitter = RecursiveCharacterTextSplitter()
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=4000,chunk_overlap=400)
 chunks = text_splitter.split_documents(docs)
+
+
+#对数据来进行向量化处理，使用中文嵌入模型将文本转换为向量表示，并构建向量存储以便后续查询（即构建索引）
 
 # 中文嵌入模型
 embeddings = HuggingFaceEmbeddings(
@@ -72,4 +77,4 @@ retrieved_docs = vectorstore.similarity_search(question, k=3)
 docs_content = "\n\n".join(doc.page_content for doc in retrieved_docs)
 
 answer = llm.invoke(prompt.format(question=question, context=docs_content))
-print(answer)
+print(answer.content)
