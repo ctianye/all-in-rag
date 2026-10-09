@@ -49,11 +49,11 @@ prompt = ChatPromptTemplate.from_template("""请根据下面提供的上下文�
 
 # 使用 AIHubmix
 llm = ChatOpenAI(
-    model="glm-4.7-flash-free",
+    model="GLM-5.3-Flash",
     temperature=0.7,
     max_tokens=4096,
     api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://aihubmix.com/v1"
+    base_url="https://llm.ujn.edu.cn/v1"
 )
 
 # llm = ChatOpenAI(
